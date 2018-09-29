@@ -1,0 +1,62 @@
+{
+  "name": "@composi/datastore",
+  "description": "Function to create an RFC4122 version 4 compliant datastore.",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "run-s format lint checkjs bundle test",
+    "bundle": "rollup -c",
+    "checkjs": "tsc --allowJs --checkJs --noEmit --moduleResolution node --target ES6 src/*.js",
+    "format": "prettier --no-semi --single-quote --write ./src/*.js",
+    "lint": "eslint --config ./.eslintrc.json src",
+    "prepare": "run-s format lint checkjs bundle test",
+    "test": "jest --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/composi/datastore.git"
+  },
+  "keywords": [
+    "composi",
+    "frontend",
+    "datastore",
+    "state"
+  ],
+  "author": "Robert Biggs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/composi/datastore/issues"
+  },
+  "homepage": "https://github.com/composi/datastore#readme",
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  },
+  "dependencies": {
+    "@composi/get-type": "^1.0.1",
+    "@composi/merge-objects": "^1.0.4",
+    "@composi/observer": "^1.0.0",
+    "@composi/uuid": "^1.0.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.1",
+    "@babel/preset-env": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "eslint": "^4.19.1",
+    "jest": "^23.6.0",
+    "npm-run-all": "^4.1.3",
+    "parallelshell": "^3.0.2",
+    "prettier": "^1.13.7",
+    "rollup": "^0.66.2",
+    "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-commonjs": "^9.1.8",
+    "rollup-plugin-cpy": "^1.0.0",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "typescript": "^3.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
