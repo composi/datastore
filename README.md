@@ -1,4 +1,4 @@
-# @composi/data-store
+# @composi/datastore
 A class providing a simple dataStore for state management.
 
 ## Install
@@ -6,7 +6,7 @@ A class providing a simple dataStore for state management.
 Run:
 
 ```sh
-npm i -D @composi/data-store
+npm i -D @composi/datastore
 ```
 
 ## Create a DataStore
@@ -16,7 +16,7 @@ First you need to import DataStore into your project. Then you need to create an
 DataStore expects data to be in a particular format--an object literal with the property `state`. You assign the data you want to use to that state property. The value of state can be any valid JavaScript data: boolean, null, undefined, string, array, object, set, weak set, map, weak map. You can also provide an `event` property to define a custom event for the dataStore. If no event is provided, the dataStore will use the default event `dataStoreStateChanged`.
 
 ```javascript
-import { DataStore } from '@composi/data-store'
+import { DataStore } from '@composi/datastore'
 
 // Some data for the dataStore.
 const fruits = [
@@ -66,7 +66,7 @@ You can tell an event what to do when it event occurrs. There are two things tha
 For now we are going to look at how to set up a watcher for a dataStore. The `watch` method takes two arguments: an event and a callback to fire. Optionally you can just provide a callback. The dataStore will then use its current event for the callback. The callback gets one parameter: any data passed with the event. In the case of [setState](#setState), this will be the new state after changes were made.
 
 ```javascript
-import { DataStore } from '@composi/data-store'
+import { DataStore } from '@composi/datastore'
 
 // Some data for the dataStore.
 const fruits = [
@@ -120,7 +120,7 @@ DataStores let you change their state through use of their `setState` method. Th
 ### Merging Object into DataStore's State
 
 ```javascript
-import { DataStore } from '@composi/data-store'
+import { DataStore } from '@composi/datastore'
 
 const dataStore = new DataStore({
   state: {
@@ -139,7 +139,7 @@ dataStore.state // {name: 'Shelly', job: 'lab technician'}
 You can also use a callback with `setState`. This allows you do do more things in order to update the dataStore state as need. The callback gets the previous state of the dataStore passed as its argument. You operate on this copy of the dataStore's state. When you are done, you return it. If you forget to return the previous state, the dataStore's state will not get updated.
 
 ```javascript
-import { DataStore } from '@composi/data-store'
+import { DataStore } from '@composi/datastore'
 
 const dataStore = new DataStore({
   state: {
@@ -164,7 +164,7 @@ When you use `setState` to manipulate the dataStore's state, all watchers that y
 You can dispatch and event that your dataStore is watching. This will cause its watcher to execute with any data you passed with the event.
 
 ```javascript
-import { DataStore } from '@composi/data-store'
+import { DataStore } from '@composi/datastore'
 
 const dataStore = new DataStore({
   state: {
@@ -191,7 +191,7 @@ You may want a watcher to exist for a limited time, after which you would like t
 Please note that you can only unwatch custom events. You can't unwatch the event `dataStoreStateChanged` because it is the default. 
 
 ```javascript
-import { DataStore } from '@composi/data-store'
+import { DataStore } from '@composi/datastore'
 
 const dataStore = new DataStore({
   state: {
