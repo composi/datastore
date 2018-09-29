@@ -96,7 +96,14 @@ export class DataStore {
   setState(data) {
     if (typeof data === 'function') {
       let copyOfState
-      copyOfState = mergeObjects(EMPTY_OBJECT, this.state)
+      if (getType(this.state) === 'Array') {
+        copyOfState = JSON.parse(JSON.stringify(this.state))
+      } else if (typeof this.state === 'object') {
+        copyOfState = mergeObjects(EMPTY_OBJECT, this.state)
+      } else {
+        // Handle primitive types:
+        copyOfState = this.state
+      }
       const newState = data.call(this, copyOfState)
       if (newState) this.state = newState
     } else if (getType(this.state) === 'Object' && getType(data) === 'Object') {

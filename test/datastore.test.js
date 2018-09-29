@@ -115,3 +115,67 @@ test('Should be able to unwatch a custom event.', function() {
   expect(dataStore.events).toHaveProperty('dataStoreStateChanged')
   expect(count).toEqual(0)
 })
+
+test('dataStore should be able to hold an array.', function() {
+  const numbers = [1,2,3]
+  const dataStore = new DataStore({
+    state: numbers
+  })
+  expect(Array.isArray(dataStore.state)).toBe(true)
+})
+
+test('Should be able to update dataStore state when it is an array.', function() {
+  const numbers = [1, 2, 3]
+  const dataStore = new DataStore({
+    state: numbers
+  })
+  expect(dataStore.state.length).toBe(3)
+  dataStore.setState(prevState => {
+    prevState.push(4)
+    return prevState
+  })
+  expect(dataStore.state.length).toBe(4)
+  expect(dataStore.state[3]).toBe(4)
+})
+
+test('dataStore should be able to hold an object.', function () {
+  const person = {
+    name: 'Joe'
+  }
+  const dataStore = new DataStore({
+    state: person
+  })
+  expect(!Array.isArray(dataStore.state) && typeof dataStore.state === 'object').toBe(true)
+})
+
+test('Should be able to update dataStore state when it is an object.', function() {
+  const person = {
+    name: 'Joe'
+  }
+  const dataStore = new DataStore({
+    state: person
+  })
+  expect(dataStore.state.name).toBe('Joe')
+  dataStore.setState(prevState => {
+    prevState.name = 'Ellen'
+    prevState.job = 'physician'
+    return prevState
+  })
+  expect(dataStore.state.name).toBe('Ellen')
+  expect(dataStore.state.job).toBe('physician')
+})
+
+test('dataStore should be able to hold primitive types.', function () {
+  const dataStoreBoolean = new DataStore({
+    state: true
+  })
+  const dataStoreString = new DataStore({
+    state: 'some text'
+  })
+  const dataStoreNumber = new DataStore({
+    state: 123
+  })
+  expect(dataStoreBoolean.state).toBe(true)
+  expect(dataStoreString.state).toBe('some text')
+  expect(dataStoreNumber.state).toBe(123)
+})

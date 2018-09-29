@@ -1,7 +1,7 @@
 {
   "name": "@composi/datastore",
   "description": "Function to create an RFC4122 version 4 compliant datastore.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "src/index.js",
   "scripts": {
     "build": "run-s format lint checkjs bundle test",
