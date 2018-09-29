@@ -1,13 +1,16 @@
 import babel from 'rollup-plugin-babel';
 import commonjs from 'rollup-plugin-commonjs'
 import resolve from 'rollup-plugin-node-resolve'
+import minify from 'rollup-plugin-babel-minify'
 
 export default {
   input: 'src/index.js',
   output: {
-    file: 'test/datastore.js',
+    file: 'dist/datastore.js',
     format: 'umd',
     name: 'datastore',
+    sourcemap: true,
+    sourcemapFile: 'dist/composi.js.map',
     globals: {
       composi: 'datastore'
     }
@@ -23,6 +26,10 @@ export default {
         main: true,
         browser: true
       }),
-      commonjs()
+      commonjs(),
+      minify({
+        mangle: true,
+        comments: false
+      })
     ]
 }

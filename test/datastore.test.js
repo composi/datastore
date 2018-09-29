@@ -1,11 +1,10 @@
 // @ts-nocheck
-import { DataStore } from "./datastore"
+import { DataStore } from "../dist/datastore"
 
 test("dataStore should exist.", function () {
   const dataStore = new DataStore({state: {boolean: true}})
-  expect(typeof dataStore).toBe('object')
+  expect(typeof dataStore.events).toBe('object')
   expect(typeof dataStore.state).toBe('object')
-  expect(dataStore.constructor.name).toBe('DataStore')
 })
 
 test('dataStore should have default event: dataStoreStateChanged.', function () {
