@@ -10,7 +10,7 @@ export default {
     format: 'umd',
     name: 'datastore',
     sourcemap: true,
-    sourcemapFile: 'dist/composi.js.map',
+    sourcemapFile: 'dist/datastore.js.map',
     globals: {
       composi: 'datastore'
     }

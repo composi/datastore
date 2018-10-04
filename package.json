@@ -1,7 +1,7 @@
 {
   "name": "@composi/datastore",
   "description": "Function to create an RFC4122 version 4 compliant datastore.",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "src/index.js",
   "scripts": {
     "build": "run-s format lint checkjs bundle test",
@@ -9,9 +9,8 @@
     "checkjs": "tsc --allowJs --checkJs --noEmit --moduleResolution node --target ES6 src/*.js",
     "format": "prettier --no-semi --single-quote --write ./src/*.js",
     "lint": "eslint --config ./.eslintrc.json src",
-    "prepare": "run-s format lint checkjs bundle test",
-    "start": "npm run prepare",
-    "test": "jest --coverage --collectCoverageFrom=dist/*.js --collectCoverageFrom=!dist/*.map --collectCoverageFrom=!ßdist/*.gz"
+    "start": "run-s format lint checkjs bundle test",
+    "test": "jest --coverage --collectCoverageFrom=dist/*.js --collectCoverageFrom=!dist/*.map --collectCoverageFrom=!dist/*.gz"
   },
   "repository": {
     "type": "git",
@@ -36,7 +35,7 @@
   },
   "dependencies": {
     "@composi/get-type": "^1.0.1",
-    "@composi/merge-objects": "^1.0.4",
+    "@composi/merge-objects": "^1.0.5",
     "@composi/observer": "^1.0.0",
     "@composi/uuid": "^1.0.1"
   },
@@ -48,7 +47,6 @@
     "eslint": "^4.19.1",
     "jest": "^23.6.0",
     "npm-run-all": "^4.1.3",
-    "parallelshell": "^3.0.2",
     "prettier": "^1.13.7",
     "rollup": "^0.66.2",
     "rollup-plugin-babel": "^4.0.3",
