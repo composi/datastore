@@ -34,10 +34,9 @@
     ]
   },
   "dependencies": {
-    "@composi/get-type": "^1.0.1",
-    "@composi/merge-objects": "^1.0.5",
-    "@composi/observer": "^1.0.0",
-    "@composi/uuid": "^1.0.1"
+    "@composi/get-type": "^1.0.2",
+    "@composi/merge-objects": "^1.0.6",
+    "@composi/observer": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.1",

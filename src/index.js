@@ -1,4 +1,3 @@
-import { uuid } from '@composi/uuid'
 import { getType } from '@composi/get-type'
 import { mergeObjects } from '@composi/merge-objects'
 const EMPTY_OBJECT = {}
@@ -7,7 +6,7 @@ import { Observer } from '@composi/observer'
 /**
  * A uuid to use as the property of the dataStore's state. This creates a pseudo-private
  */
-const dataStore = uuid()
+const dataStore = Symbol()
 
 /**
  * A class to create a dataStore. This is used in conjunction with DataStoreComponent to create stateless components with external state management through a dataStore.
@@ -39,15 +38,13 @@ export class DataStore {
    */
   set state(data) {
     this[dataStore] = data
-    const self = this
     if (this.events) {
-      Object.keys(self.events).map(event => {
+      Object.keys(this.events).map(event => {
         if (event.length) {
-          self.dispatch(event, this.state)
+          this.dispatch(event, this.state)
         }
       })
     }
-    // this.dispatch(this.event, this.state)
   }
 
   /**
