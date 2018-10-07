@@ -2,23 +2,23 @@
 import { DataStore } from "../dist/datastore"
 
 test("dataStore should exist.", function () {
-  const dataStore = new DataStore({state: {boolean: true}})
+  const dataStore = new DataStore({ boolean: true })
   expect(typeof dataStore.events).toBe('object')
   expect(typeof dataStore.state).toBe('object')
 })
 
 test('dataStore should have default event: dataStoreStateChanged.', function () {
-  const dataStore = new DataStore({ state: { boolean: true } })
+  const dataStore = new DataStore({ boolean: true })
   expect(dataStore.events).toHaveProperty('dataStoreStateChanged')
 })
 
 test('Should be able to get state of dataStore.', function() {
-  const dataStore = new DataStore({state: {name: 'Joe'}})
+  const dataStore = new DataStore({ name: 'Joe' })
   expect(dataStore.state).toEqual({ name: 'Joe' })
 })
 
 test('Should be able to update state of component with setState.', function() {
-  const dataStore = new DataStore({ state: { name: 'Joe' } })
+  const dataStore = new DataStore({ name: 'Joe' })
   expect(dataStore.state).toEqual({ name: 'Joe' })
   
   dataStore.setState(prevState => {
@@ -29,7 +29,7 @@ test('Should be able to update state of component with setState.', function() {
 })
 
 test('dataStore.setState should merge provided object with state object.', function() {
-  const dataStore = new DataStore({ state: { name: 'Joe' } })
+  const dataStore = new DataStore({ name: 'Joe' })
   expect(dataStore.state).toEqual({ name: 'Joe' })
   
   dataStore.setState({job: 'mechanic'})
@@ -40,7 +40,8 @@ test('dataStore.setState should fire default event: dataStoreStateChanged', func
   let eventFired = false
   expect(eventFired).toBe(false)
   const dataStore = new DataStore({ state: 'some text' })
-  dataStore.watch('dataStoreStateChanged', function () {
+  // Use any falsy value as event argument:
+  dataStore.watch('', function () {
     eventFired = true
   })
   dataStore.setState(prevState => {
@@ -48,18 +49,14 @@ test('dataStore.setState should fire default event: dataStoreStateChanged', func
     return prevState
   })
   expect(dataStore.state).toBe('changed text')
-})
-
-test('Should be able to assign custom event to dataStore.', function() {
-  const dataStore = new DataStore({state: 'whatever', event: 'special-event'})
-  expect(dataStore.events).toHaveProperty('special-event')
+  expect(eventFired).toBe(true)
 })
 
 
 let customEventFired = false
 test('dataStore with custom event should fire when state is changed.', function() {
-  const dataStore = new DataStore({state: {name: 'Joe'}, event: 'update-person'})
-  expect(dataStore.state).toEqual({name: 'Joe'})
+  const dataStore = new DataStore({ name: 'Joe' })
+  expect(dataStore.state).toEqual({ name: 'Joe' })
   dataStore.watch('update-person', function (data) {
     customEventFired = true
     expect(data).toEqual({ name: 'Joe', job: 'mechanic' })
@@ -74,7 +71,7 @@ test('dataStore with custom event should fire when state is changed.', function(
 })
 
 test('dataStore should fire its custom event when dispatched.', function() {
-  const dataStore = new DataStore({ state: { name: 'Joe' }, event: 'update-person' })
+  const dataStore = new DataStore({ name: 'Joe' })
   dataStore.watch('update-person', function (data) {
     expect(data).toEqual({ name: 'Joe', job: 'mechanic' })
   })
@@ -82,7 +79,7 @@ test('dataStore should fire its custom event when dispatched.', function() {
 })
 
 test('dataStore with multiple events should all respond to setState.', function() {
-  const dataStore = new DataStore({ state: { name: 'Joe' }, event: 'update-person' })
+  const dataStore = new DataStore({ name: 'Joe' })
 
   dataStore.watch('update-person', function (data) {
     expect(data).toEqual({ name: 'Joe', job: 'mechanic' })
@@ -95,10 +92,9 @@ test('dataStore with multiple events should all respond to setState.', function(
     return prevState
   })
 })
-
 test('Should be able to unwatch a custom event.', function() {
   let count = 0
-  const dataStore = new DataStore({ state: { name: 'Joe' }, event: 'update-person' })
+  const dataStore = new DataStore({ name: 'Joe' })
   dataStore.watch('update-person', function (data) {
     count += 1
     expect(data).toEqual({ name: 'Joe', job: 'mechanic' })
@@ -118,17 +114,13 @@ test('Should be able to unwatch a custom event.', function() {
 
 test('dataStore should be able to hold an array.', function() {
   const numbers = [1,2,3]
-  const dataStore = new DataStore({
-    state: numbers
-  })
+  const dataStore = new DataStore(numbers)
   expect(Array.isArray(dataStore.state)).toBe(true)
 })
 
 test('Should be able to update dataStore state when it is an array.', function() {
   const numbers = [1, 2, 3]
-  const dataStore = new DataStore({
-    state: numbers
-  })
+  const dataStore = new DataStore(numbers)
   expect(dataStore.state.length).toBe(3)
   dataStore.setState(prevState => {
     prevState.push(4)
@@ -152,9 +144,7 @@ test('Should be able to update dataStore state when it is an object.', function(
   const person = {
     name: 'Joe'
   }
-  const dataStore = new DataStore({
-    state: person
-  })
+  const dataStore = new DataStore(person)
   expect(dataStore.state.name).toBe('Joe')
   dataStore.setState(prevState => {
     prevState.name = 'Ellen'
@@ -166,15 +156,10 @@ test('Should be able to update dataStore state when it is an object.', function(
 })
 
 test('dataStore should be able to hold primitive types.', function () {
-  const dataStoreBoolean = new DataStore({
-    state: true
-  })
-  const dataStoreString = new DataStore({
-    state: 'some text'
-  })
-  const dataStoreNumber = new DataStore({
-    state: 123
-  })
+  const dataStoreBoolean = new DataStore(true)
+  const dataStoreString = new DataStore('some text')
+  const dataStoreNumber = new DataStore(123)
+
   expect(dataStoreBoolean.state).toBe(true)
   expect(dataStoreString.state).toBe('some text')
   expect(dataStoreNumber.state).toBe(123)

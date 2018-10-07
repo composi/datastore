@@ -12,15 +12,16 @@ const dataStore = Symbol()
  * A class to create a dataStore. This is used in conjunction with DataStoreComponent to create stateless components with external state management through a dataStore.
  */
 export class DataStore {
-  constructor(props) {
+  /**
+   * Constructor for DataStore.
+   * @param {*} data Whatever data you want to store.
+   */
+  constructor(data) {
     this[dataStore] = undefined
     this.observer = new Observer()
-    this.state = props.state
+    this.state = data
     this.events = {}
     this.events['dataStoreStateChanged'] = []
-    if (props.event) {
-      this.events[props.event] = []
-    }
   }
 
   /**
@@ -53,9 +54,8 @@ export class DataStore {
    * @param {any} data Any data you want to send to the component.
    */
   dispatch(event, data) {
-    if (!event) {
+    if (event === '' || !event) {
       this.observer.dispatch('dataStoreStateChanged', data)
-      this.observer.dispatch(event, data)
     } else {
       this.observer.dispatch(event, data)
     }
@@ -67,11 +67,11 @@ export class DataStore {
    * @param {any} cb Any data that the event callback will need to handle.
    */
   watch(event, cb) {
-    if (typeof event === 'string') {
+    if (event !== '') {
       this.events[event] = [this.observer.watch(event, cb)]
     } else {
       this.events['dataStoreStateChanged'].push(
-        this.observer.watch('dataStoreStateChanged', event)
+        this.observer.watch('dataStoreStateChanged', cb)
       )
     }
   }

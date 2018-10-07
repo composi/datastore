@@ -13,7 +13,7 @@ npm i -D @composi/datastore
 
 First you need to import DataStore into your project. Then you need to create an instance. When doing so, you pass the data you want the dataStore to use. You can also optionally provide a custom event name.
 
-DataStore expects data to be in a particular format--an object literal with the property `state`. You assign the data you want to use to that state property. The value of state can be any valid JavaScript data: boolean, null, undefined, string, array, object, set, weak set, map, weak map. You can also provide an `event` property to define a custom event for the dataStore. If no event is provided, the dataStore will use the default event `dataStoreStateChanged`.
+Just pass whatever data you need to use to DataStore. The value can be any valid JavaScript type: boolean, null, undefined, string, array, object, set, weak set, map, weak map.
 
 ```javascript
 import { DataStore } from '@composi/datastore'
@@ -35,11 +35,7 @@ const fruits = [
 ]
 
 // Initialize the dataStore.
-// We provide a custom event as well.
-const dataStore = new DataStore({
-  state: fruits,
-  event: 'fruits-updated'
-})
+const dataStore = new DataStore(fruits)
 ```
 
 We can check that our dataStore contains our fruits by checking its `state` property:
@@ -55,7 +51,7 @@ In the above example our dataStore state was an array. In fact the state and by 
 
 ## DataStore Events
 
-As we showed above, you can provide you dataStore with a custom event. However, if you do not provide an event, the dataStore will use its default, which is `dataStoreStateChanged`.
+You can provide you dataStore with a custom event. However, if you do not provide an event, the dataStore will use its default, which is `dataStoreStateChanged`. You indicate what event you want to use when you set up a watch, as described below.
 
 You can assign multiple events to the same dataStore. You can even create multiple watchers for the save event. You can activate any event watcher by [dispatching its event](#dispatch), or by manipulating the dataStore's state with the `setState` method.
 
@@ -86,9 +82,7 @@ const fruits = [
 
 // Initialize the dataStore.
 // We provide a custom event as well.
-const dataStore = new DataStore({
-  state: fruits
-})
+const dataStore = new DataStore(fruits)
 
 // Create a watcher.
 // We'll provide a custom event here.
@@ -123,9 +117,7 @@ DataStores let you change their state through use of their `setState` method. Th
 import { DataStore } from '@composi/datastore'
 
 const dataStore = new DataStore({
-  state: {
-    name: 'Shelly'
-  }
+  name: 'Shelly'
 })
 
 // Merge new object into dataStore's state:
@@ -142,9 +134,7 @@ You can also use a callback with `setState`. This allows you do do more things i
 import { DataStore } from '@composi/datastore'
 
 const dataStore = new DataStore({
-  state: {
-    name: 'Shelly'
-  }
+  name: 'Shelly'
 })
 
 // Merge new object into dataStore's state:
@@ -167,9 +157,7 @@ You can dispatch and event that your dataStore is watching. This will cause its 
 import { DataStore } from '@composi/datastore'
 
 const dataStore = new DataStore({
-  state: {
-    name: 'Joe'
-  }
+  name: 'Joe'
 })
 
 // Add a watcher:
@@ -194,9 +182,7 @@ Please note that you can only unwatch custom events. You can't unwatch the event
 import { DataStore } from '@composi/datastore'
 
 const dataStore = new DataStore({
-  state: {
-    name: 'Joe'
-  }
+  name: 'Joe'
 })
 
 // Add a watcher:
