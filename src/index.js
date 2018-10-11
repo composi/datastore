@@ -56,7 +56,7 @@ export class DataStore {
   dispatch(event, data) {
     if (event === '' || !event) {
       this.observer.dispatch('dataStoreStateChanged', data)
-    } else {
+    } else if (this.events[event]) {
       this.observer.dispatch(event, data)
     }
   }
@@ -93,7 +93,7 @@ export class DataStore {
   setState(data) {
     if (typeof data === 'function') {
       let copyOfState
-      if (getType(this.state) === 'Array') {
+      if (getType(this.state) === 'array') {
         copyOfState = JSON.parse(JSON.stringify(this.state))
       } else if (typeof this.state === 'object') {
         copyOfState = mergeObjects(EMPTY_OBJECT, this.state)
@@ -103,7 +103,7 @@ export class DataStore {
       }
       const newState = data.call(this, copyOfState)
       if (newState) this.state = newState
-    } else if (getType(this.state) === 'Object' && getType(data) === 'Object') {
+    } else if (getType(this.state) === 'object' && getType(data) === 'object') {
       const newState = mergeObjects(this.state, data)
       this.state = newState
     }
@@ -117,6 +117,7 @@ export class DataStore {
   unwatch(event) {
     if (event !== 'dataStoreStateChanged') {
       delete this.events[event]
+      this.observer.unwatch(event)
     }
   }
 }

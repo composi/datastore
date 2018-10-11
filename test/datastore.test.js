@@ -31,9 +31,9 @@ test('Should be able to update state of component with setState.', function() {
 test('dataStore.setState should merge provided object with state object.', function() {
   const dataStore = new DataStore({ name: 'Joe' })
   expect(dataStore.state).toEqual({ name: 'Joe' })
-  
   dataStore.setState({job: 'mechanic'})
-  expect(dataStore.state).toEqual({ name: 'Joe', job: 'mechanic' })
+  expect(dataStore.state.name).toBe('Joe')
+  expect(dataStore.state.job).toBe('mechanic')
 })
 
 test('dataStore.setState should fire default event: dataStoreStateChanged', function() {
@@ -99,17 +99,12 @@ test('Should be able to unwatch a custom event.', function() {
     count += 1
     expect(data).toEqual({ name: 'Joe', job: 'mechanic' })
   })
-  dataStore.watch('update-person', function (data) {
-    expect(data).toEqual({ name: 'Joe', job: 'mechanic' })
-  })
-  dataStore.unwatch('dataStoreStateChanged', function(data) {
-    expect(data).toEqual({ name: 'Joe', job: 'mechanic' })
-  })
   dataStore.dispatch('update-person', { name: 'Joe', job: 'mechanic' })
-  dataStore.setState({ name: 'Joe', job: 'mechanic' })
-  expect(dataStore.state).toEqual({ name: 'Joe', job: 'mechanic' })
-  expect(dataStore.events).toHaveProperty('dataStoreStateChanged')
-  expect(count).toEqual(0)
+  expect(count).toEqual(1)
+  dataStore.unwatch('update-person')
+  expect(dataStore.events['update-person']).toBeUndefined()
+  dataStore.dispatch('update-person', { name: 'Joe', job: 'mechanic' })
+  expect(count).toEqual(1)
 })
 
 test('dataStore should be able to hold an array.', function() {
