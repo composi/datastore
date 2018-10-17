@@ -4,9 +4,19 @@ const EMPTY_OBJECT = {}
 import { Observer } from '@composi/observer'
 
 /**
- * A uuid to use as the property of the dataStore's state. This creates a pseudo-private
+ * A Symbol as the property of the dataStore's state. This creates a pseudo-private.
  */
-const dataStore = Symbol()
+const DATASTORE = Symbol()
+
+/**
+ * A Symbol as the property of the dataStore's version. This creates a pseudo-private.
+ */
+const VERSION = Symbol('vesion')
+
+/**
+ * A Symbol as the property of the dataStore's timestamp. This creates a pseudo-private.
+ */
+const TIMESTAMP = Symbol('timestamp')
 
 /**
  * A class to create a dataStore. This is used in conjunction with DataStoreComponent to create stateless components with external state management through a dataStore.
@@ -17,11 +27,13 @@ export class DataStore {
    * @param {*} data Whatever data you want to store.
    */
   constructor(data) {
-    this[dataStore] = undefined
+    this[DATASTORE] = undefined
     this.observer = new Observer()
     this.state = data
     this.events = {}
     this.events['dataStoreStateChanged'] = []
+    this[VERSION] = 1
+    this[TIMESTAMP] = new Date().getTime()
   }
 
   /**
@@ -29,7 +41,7 @@ export class DataStore {
    * @return {boolean | number | string | Object | any[]} The component's state
    */
   get state() {
-    return this[dataStore]
+    return this[DATASTORE]
   }
 
   /**
@@ -38,7 +50,7 @@ export class DataStore {
    * @return {void} undefined
    */
   set state(data) {
-    this[dataStore] = data
+    this[DATASTORE] = data
     if (this.events) {
       Object.keys(this.events).map(event => {
         if (event.length) {
@@ -46,6 +58,26 @@ export class DataStore {
         }
       })
     }
+  }
+
+  /**
+   * Get the current version of the dataStore.
+   * @return {number} number
+   */
+  get version() {
+    return this[VERSION]
+  }
+
+  /**
+   * Increase the dataStore version. Use this to update the version, bumping it one version higher.
+   * @return {void} undefined
+   */
+  bumpVersion() {
+    this[VERSION] = this[VERSION] + 1
+  }
+
+  get timestamp() {
+    return this[TIMESTAMP]
   }
 
   /**
@@ -67,12 +99,16 @@ export class DataStore {
    * @param {any} cb Any data that the event callback will need to handle.
    */
   watch(event, cb) {
-    if (event !== '') {
-      this.events[event] = [this.observer.watch(event, cb)]
-    } else {
+    if (!event) {
       this.events['dataStoreStateChanged'].push(
         this.observer.watch('dataStoreStateChanged', cb)
       )
+    } else if (typeof event === 'function') {
+      this.events['dataStoreStateChanged'].push(
+        this.observer.watch('dataStoreStateChanged', event)
+      )
+    } else {
+      this.events[event] = [this.observer.watch(event, cb)]
     }
   }
 
@@ -119,5 +155,38 @@ export class DataStore {
       delete this.events[event]
       this.observer.unwatch(event)
     }
+  }
+
+  /**
+   * Saves the current dataStore state in localStorage.
+   * @return {Promise} Promise
+   */
+  putInLocalStorage() {
+    return new Promise((resolve, reject) => {
+      if (this.state) {
+        localStorage.setItem('composi-datastore', JSON.stringify(this.state))
+        localStorage.setItem('composi-datastore-version', this.version + '')
+        localStorage.setItem('composi-datastore-timestamp', this.timestamp)
+        resolve()
+      } else {
+        reject(new Error('Unable to save to localStorage.'))
+      }
+    })
+  }
+
+  /**
+   * Rehydrate the dataStore with whatever was prevously saved from the dataStore in localStorage.
+   * @return {Promise} Promise
+   */
+  getFromLocalStorage() {
+    return new Promise((resolve, reject) => {
+      const state = JSON.parse(localStorage.getItem('composi-datastore'))
+      if (state) {
+        this.state = state
+        resolve()
+      } else {
+        reject(new Error('There was nothing in localStorage to retrieve.'))
+      }
+    })
   }
 }
