@@ -53,11 +53,11 @@ In the above example our dataStore state was an array. In fact the state and by 
 
 You can provide your dataStore with a custom event. However, if you do not provide an event, the dataStore will use its default, which is `dataStoreStateChanged`. You indicate what event you want to use when you set up a watcher, as described below.
 
-You can assign multiple events to the same dataStore. You can even create multiple watchers for the save event. You can activate any event watcher by [dispatching its event](#dispatch), or by manipulating the dataStore's state with the `setState` method.
+You can assign multiple events to the same dataStore. You can even create multiple watchers for the save event. You can activate any event watcher by [sending its event](#send), or by manipulating the dataStore's state with the `setState` method.
 
 ## watch
 
-You can tell an event what to do when an event occurrs. There are two things that cause the event to occur: changing the dataStore's state with [setState](#setState) and calling the dataStore's [dispatch](#dispatch) method.
+You can tell an event what to do when an event occurrs. There are two things that cause the event to occur: changing the dataStore's state with [setState](#setState) and calling the dataStore's [send](#send) method.
 
 For now we are going to look at how to set up a watcher for a dataStore. The `watch` method takes two arguments: an event and a callback to fire. Optionally you can just provide a callback. The dataStore will then use its current event for the callback. The callback gets one parameter: any data passed with the event. In the case of [setState](#setState), this will be the new state after changes were made.
 
@@ -156,9 +156,9 @@ dataStore.state // {name: 'Shelly', job: 'lab technician'}
 
 When you use `setState` to manipulate the dataStore's state, all watchers that you have setup for that dataStore will respond to the changes.
 
-## dispatch
+## send
 
-You can dispatch an event that your dataStore is watching. This will cause its watcher to execute with any data you passed with the event. Watchers for other events will not respond. Since it is possible to have multiple watchers for the same event, dispatching to their event will cause all of them to respond.
+You can send an event that your dataStore is watching. This will cause its watcher to execute with any data you passed with the event. Watchers for other events will not respond. Since it is possible to have multiple watchers for the same event, sending to their event will cause all of them to respond.
 
 ```javascript
 import { DataStore } from '@composi/datastore'
@@ -173,8 +173,8 @@ dataStore.watch('update-person', data => {
   console.log(data)
 })
 
-// Dispatch event with data:
-dataStore.dispatch('update-person', {name: 'Mary'})
+// send event with data:
+dataStore.send('update-person', {name: 'Mary'})
 // The event "update-person" was fired. The data received is:
 // {name: 'Mary'}
 ```
@@ -198,16 +198,16 @@ dataStore.watch('update-person', data => {
   console.log(data)
 })
 
-// Dispatch event with data:
-dataStore.dispatch('update-person', {name: 'Mary'})
+// Send event with data:
+dataStore.send('update-person', {name: 'Mary'})
 // The event "update-person" was fired. The data received is:
 // {name: 'Mary'}
 
 // Unwatch event:
 dataStore.unwatch('update-person')
 
-// Dispatching the unwatched event will have no effect:
-dataStore.dispatch('update-person', {name: 'Sam'})
+// Sending the unwatched event will have no effect:
+dataStore.send('update-person', {name: 'Sam'})
 ```
 
 # Persisting Your Data

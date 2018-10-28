@@ -36,7 +36,7 @@
   "dependencies": {
     "@composi/get-type": "^1.0.3",
     "@composi/merge-objects": "^1.0.6",
-    "@composi/observer": "^1.0.2"
+    "@composi/observer": "^1.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.1",

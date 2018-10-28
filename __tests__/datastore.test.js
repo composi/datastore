@@ -76,7 +76,7 @@ test('dataStore.setState should fire default event: dataStoreStateChanged', func
   expect(eventFired).toBe(true)
 })
 
-test('Should be able to provide just callback for watch and dispatch data with falsy event.', function() {
+test('Should be able to provide just callback for watch and send data with falsy event.', function() {
   const dataStore = new DataStore()
   let result = {
     message: 'not yet'
@@ -85,7 +85,7 @@ test('Should be able to provide just callback for watch and dispatch data with f
     result.message = data
   })
   expect(result.message).toBe('not yet')
-  dataStore.dispatch('', 'new message')
+  dataStore.send('', 'new message')
   expect(result.message).toBe('new message')
 })
 
@@ -107,12 +107,12 @@ test('dataStore with custom event should fire when state is changed.', function(
   expect(dataStore.state).toEqual({name: 'Joe', job: 'mechanic'})
 })
 
-test('dataStore should fire its custom event when dispatched.', function() {
+test('dataStore should fire its custom event when sent.', function() {
   const dataStore = new DataStore({ name: 'Joe' })
   dataStore.watch('update-person', function (data) {
     expect(data).toEqual({ name: 'Joe', job: 'mechanic' })
   })
-  dataStore.dispatch('update-person', { name: 'Joe', job: 'mechanic'})
+  dataStore.send('update-person', { name: 'Joe', job: 'mechanic'})
 })
 
 test('dataStore with multiple events should all respond to setState.', function() {
@@ -136,11 +136,11 @@ test('Should be able to unwatch a custom event.', function() {
     count += 1
     expect(data).toEqual({ name: 'Joe', job: 'mechanic' })
   })
-  dataStore.dispatch('update-person', { name: 'Joe', job: 'mechanic' })
+  dataStore.send('update-person', { name: 'Joe', job: 'mechanic' })
   expect(count).toEqual(1)
   dataStore.unwatch('update-person')
   expect(dataStore.events['update-person']).toBeUndefined()
-  dataStore.dispatch('update-person', { name: 'Joe', job: 'mechanic' })
+  dataStore.send('update-person', { name: 'Joe', job: 'mechanic' })
   expect(count).toEqual(1)
 })
 

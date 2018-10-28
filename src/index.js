@@ -54,7 +54,7 @@ export class DataStore {
     if (this.events) {
       Object.keys(this.events).map(event => {
         if (event.length) {
-          this.dispatch(event, this.state)
+          this.send(event, this.state)
         }
       })
     }
@@ -81,15 +81,15 @@ export class DataStore {
   }
 
   /**
-   * @method This is a method to dispatch an event with data to a DataStoreComponent that is using a dataStore.
+   * @method This is a method to send an event with data to a DataStoreComponent that is using a dataStore.
    * @param {string} event The name of the event that the component is watching.
    * @param {any} data Any data you want to send to the component.
    */
-  dispatch(event, data) {
+  send(event, data) {
     if (event === '' || !event) {
-      this.observer.dispatch('dataStoreStateChanged', data)
+      this.observer.send('dataStoreStateChanged', data)
     } else if (this.events[event]) {
-      this.observer.dispatch(event, data)
+      this.observer.send(event, data)
     }
   }
 
