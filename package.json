@@ -1,7 +1,7 @@
 {
   "name": "@composi/datastore",
   "description": "Function to create an RFC4122 version 4 compliant datastore.",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "main": "src/index.js",
   "scripts": {
     "build": "run-s format lint checkjs bundle test",
@@ -34,9 +34,9 @@
     ]
   },
   "dependencies": {
-    "@composi/get-type": "^1.0.3",
-    "@composi/merge-objects": "^1.0.6",
-    "@composi/observer": "^1.1.0"
+    "@composi/get-type": "^1.0.4",
+    "@composi/merge-objects": "^1.1.1",
+    "@composi/observer": "^1.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
