@@ -1,7 +1,7 @@
 {
   "name": "@composi/datastore",
   "description": "Function to create an RFC4122 version 4 compliant datastore.",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "main": "src/index.js",
   "scripts": {
     "build": "run-s format lint checkjs bundle test",
@@ -39,20 +39,20 @@
     "@composi/observer": "^1.1.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.2.0",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
     "babel-core": "^7.0.0-bridge.0",
-    "babel-jest": "^24.8.0",
-    "eslint": "^4.19.1",
-    "jest": "^24.8.0",
+    "babel-jest": "^25.4.0",
+    "eslint": "^6.8.0",
+    "jest": "^25.4.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^1.15.3",
-    "rollup": "^0.66.2",
-    "rollup-plugin-babel": "^4.0.3",
-    "rollup-plugin-babel-minify": "^6.0.0",
-    "rollup-plugin-commonjs": "^9.1.8",
-    "rollup-plugin-node-resolve": "^3.4.0",
-    "typescript": "^3.0.3"
+    "prettier": "^2.0.5",
+    "rollup": "^2.7.2",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-babel-minify": "^10.0.0",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "typescript": "^3.8.3"
   },
   "publishConfig": {
     "access": "public"
